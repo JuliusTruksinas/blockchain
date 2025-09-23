@@ -17,8 +17,14 @@ public class CustomHasher : IHasher
         ulong state3 = START_CONST3;
         ulong state4 = START_CONST4;
 
-        return "hashed value";
+        var bytes = Encoding.UTF8.GetBytes(input);
+
+        AbsorbData(bytes, ref state1, ref state2, ref state3, ref state4);
+        MixStates(ref state1, ref state2, ref state3, ref state4);
+
+        return ConvertToHexString(ref state1, ref state2, ref state3, ref state4);
     }
+
     private static void AbsorbData(
     byte[] data,
     ref ulong state1,
