@@ -35,6 +35,22 @@ public class CustomHasher : IHasher
         }
     }
 
+    static void MixStates(
+        ref ulong state1,
+        ref ulong state2,
+        ref ulong state3,
+        ref ulong state4,
+        int rounds = 4)
+    {
+        for (int i = 0; i < rounds; i++)
+        {
+            state1 = RotateLeft(state1 + state4, 11) ^ state2;
+            state2 = RotateLeft(state2 + state1, 35) ^ state3;
+            state3 = RotateLeft(state3 + state2, 36) ^ state4;
+            state4 = RotateLeft(state4 + state3, 21) ^ state1;
+        }
+    }
+
     private static ulong RotateLeft(ulong x, int n)
     {
         return (x << n) | (x >> (64 - n));
