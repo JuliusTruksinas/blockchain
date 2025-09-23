@@ -55,4 +55,19 @@ public class CustomHasher : IHasher
     {
         return (x << n) | (x >> (64 - n));
     }
+
+    private static string ConvertToHexString(
+        ref ulong state1,
+        ref ulong state2,
+        ref ulong state3,
+        ref ulong state4
+    )
+    {
+        return string.Concat(
+            state1.ToString("X16"),
+            state2.ToString("X16"),
+            state3.ToString("X16"),
+            state4.ToString("X16")
+        );
+    }
 }
