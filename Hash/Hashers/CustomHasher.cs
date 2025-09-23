@@ -12,6 +12,16 @@ public class CustomHasher : IHasher
 
     public string Hash(string input)
     {
+        ulong state1 = START_CONST1;
+        ulong state2 = START_CONST2;
+        ulong state3 = START_CONST3;
+        ulong state4 = START_CONST4;
+
         return "hashed value";
+    }
+
+    private static ulong RotateLeft(ulong x, int n)
+    {
+        return (x << n) | (x >> (64 - n));
     }
 }
