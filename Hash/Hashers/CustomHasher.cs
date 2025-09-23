@@ -19,6 +19,21 @@ public class CustomHasher : IHasher
 
         return "hashed value";
     }
+    private static void AbsorbData(
+    byte[] data,
+    ref ulong state1,
+    ref ulong state2,
+    ref ulong state3,
+    ref ulong state4)
+    {
+        foreach (byte b in data)
+        {
+            state1 = RotateLeft(state1 + b, 16) ^ state2;
+            state2 = RotateLeft(state2 ^ b, 13) + state3;
+            state3 = RotateLeft(state3 + b, 25) ^ state4;
+            state4 = RotateLeft(state4 ^ b, 31) + state1;
+        }
+    }
 
     private static ulong RotateLeft(ulong x, int n)
     {
