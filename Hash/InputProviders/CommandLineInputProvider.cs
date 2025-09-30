@@ -33,7 +33,7 @@ namespace Hash.InputProviders
 
             if (!isAlgorithmParseSuccess)
             {
-                errorMessage = string.Format(MessageConstants.Errors.UnsupportedAlgorithm, string.Join(",", Enum.GetNames<HashAlgorithm>()));
+                errorMessage = string.Format(MessageConstants.Errors.UnsupportedAlgorithm, string.Join(", ", Enum.GetNames<HashAlgorithm>()));
                 return false;
             }
 
