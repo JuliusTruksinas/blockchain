@@ -51,7 +51,7 @@ namespace Hash.Helpers
 
             for (int i = 0; i < numberOfFiles; i++)
             {
-                FileGenerator.GenerateEmptyFile(GenerateNewFilePath(folderPath));
+                FileGenerator.GenerateEmptyFile(GenerateNewFilePath(newFolderPath));
             }
         }
 
