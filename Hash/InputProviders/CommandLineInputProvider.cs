@@ -22,7 +22,7 @@ namespace Hash.InputProviders
 
             if (_args.Length != 2)
             {
-                errorMessage = MessageConstants.GeneralCLIArgumentsError;
+                errorMessage = MessageConstants.Errors.GeneralCLIArgumentsError;
                 return false;
             }
 
@@ -33,7 +33,7 @@ namespace Hash.InputProviders
 
             if (!isAlgorithmParseSuccess)
             {
-                errorMessage = string.Format(MessageConstants.UnsupportedAlgorithm, string.Join(",", Enum.GetNames<HashAlgorithm>()));
+                errorMessage = string.Format(MessageConstants.Errors.UnsupportedAlgorithm, string.Join(",", Enum.GetNames<HashAlgorithm>()));
                 return false;
             }
 
@@ -41,7 +41,7 @@ namespace Hash.InputProviders
 
             if (!fileExists)
             {
-                errorMessage = string.Format(MessageConstants.FileDoesNotExist, providedFilePath);
+                errorMessage = string.Format(MessageConstants.Errors.FileDoesNotExist, providedFilePath);
                 return false;
             }
 
@@ -49,7 +49,7 @@ namespace Hash.InputProviders
 
             if (ext != ".txt")
             {
-                errorMessage = MessageConstants.UnsupportedFileExtention;
+                errorMessage = MessageConstants.Errors.UnsupportedFileExtention;
                 return false;
             }
 
