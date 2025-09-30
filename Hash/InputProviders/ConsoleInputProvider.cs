@@ -1,14 +1,13 @@
-using Hash.Interfaces;
+﻿using Hash.Interfaces;
+using Hash.Models;
 
-namespace Hash.InputProviders;
-
-public class ConsoleInputProvider : IInputProvider
+namespace Hash.InputProviders
 {
-    public bool TryGetInput(out string? input)
+    public class ConsoleInputProvider : IHashInputProvider
     {
-        Console.WriteLine("Enter text: ");
-        input = Console.ReadLine();
-
-        return !string.IsNullOrWhiteSpace(input);
+        public bool TryGetInput(out HashInput? input, out string? errorMessage)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
