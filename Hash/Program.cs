@@ -43,6 +43,9 @@ public class Program
 
     private static IHasher GetHasher(HashAlgorithm hashAlgorithm)
     {
-        return new CustomHasher();
+        if (hashAlgorithm == HashAlgorithm.Custom)
+            return new CustomHasher();
+
+        return new AIHasher();
     }
 }
