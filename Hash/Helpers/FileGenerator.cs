@@ -40,7 +40,7 @@
                 char c = unusedChars[last];
                 unusedChars.RemoveAt(last);
 
-                string fileName = $"{Guid.NewGuid().ToString("N")}.txt";
+                string fileName = $"{i+1}.txt";
 
                 GenerateFile(Path.Combine(folderPath, fileName), firstPart + c + secondPart);
             }

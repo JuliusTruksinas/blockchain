@@ -18,22 +18,24 @@ namespace Hash.Helpers
         {
             string newFolderPath = Path.Combine(folderPath, "files-with-single-character");
             Directory.CreateDirectory(newFolderPath);
+            int fileCounter = 1;
 
-            FileGenerator.GenerateFileWithOneCharacter(GenerateNewFilePath(newFolderPath), "a");
-            FileGenerator.GenerateFileWithOneCharacter(GenerateNewFilePath(newFolderPath), "z");
-            FileGenerator.GenerateFileWithOneCharacter(GenerateNewFilePath(newFolderPath), "e");
-            FileGenerator.GenerateFileWithOneCharacter(GenerateNewFilePath(newFolderPath), "g");
+            FileGenerator.GenerateFileWithOneCharacter(GenerateNewFilePath(newFolderPath, ref fileCounter), "a");
+            FileGenerator.GenerateFileWithOneCharacter(GenerateNewFilePath(newFolderPath, ref fileCounter), "z");
+            FileGenerator.GenerateFileWithOneCharacter(GenerateNewFilePath(newFolderPath, ref fileCounter), "e");
+            FileGenerator.GenerateFileWithOneCharacter(GenerateNewFilePath(newFolderPath, ref fileCounter), "g");
         }
 
         private static void GenerateFilesWithRandomChars(string folderPath, int length)
         {
             string newFolderPath = Path.Combine(folderPath, $"files-with-{length}-random-characters");
             Directory.CreateDirectory(newFolderPath);
+            int fileCounter = 1;
 
-            FileGenerator.GenerateFileWithRandomAsciiCharacters(GenerateNewFilePath(newFolderPath), length);
-            FileGenerator.GenerateFileWithRandomAsciiCharacters(GenerateNewFilePath(newFolderPath), length);
-            FileGenerator.GenerateFileWithRandomAsciiCharacters(GenerateNewFilePath(newFolderPath), length);
-            FileGenerator.GenerateFileWithRandomAsciiCharacters(GenerateNewFilePath(newFolderPath), length);
+            FileGenerator.GenerateFileWithRandomAsciiCharacters(GenerateNewFilePath(newFolderPath, ref fileCounter), length);
+            FileGenerator.GenerateFileWithRandomAsciiCharacters(GenerateNewFilePath(newFolderPath, ref fileCounter), length);
+            FileGenerator.GenerateFileWithRandomAsciiCharacters(GenerateNewFilePath(newFolderPath, ref fileCounter), length);
+            FileGenerator.GenerateFileWithRandomAsciiCharacters(GenerateNewFilePath(newFolderPath, ref fileCounter), length);
         }
 
         private static void GenerateFilesWithOneDifferentChar(string folderPath, int numberOfFiles, int length)
@@ -49,13 +51,13 @@ namespace Hash.Helpers
             string newFolderPath = Path.Combine(folderPath, $"empty-files");
             Directory.CreateDirectory(newFolderPath);
 
-            for (int i = 0; i < numberOfFiles; i++)
+            for (int i = 1; i <= numberOfFiles; i++)
             {
-                FileGenerator.GenerateEmptyFile(GenerateNewFilePath(newFolderPath));
+                FileGenerator.GenerateEmptyFile(GenerateNewFilePath(newFolderPath, ref i));
             }
         }
 
-        private static string GenerateNewFilePath(string folderPath)
-            => Path.Combine(folderPath, $"{Guid.NewGuid().ToString("N")}.txt");
+        private static string GenerateNewFilePath(string folderPath, ref int fileCounter)
+            => Path.Combine(folderPath, $"{fileCounter}.txt");
     }
 }
