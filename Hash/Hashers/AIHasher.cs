@@ -10,29 +10,41 @@ public class AIHasher : IHasher
         if (input is null)
             throw new ArgumentNullException(nameof(input));
 
-        // Convert string to bytes (UTF-8)
         byte[] bytes = Encoding.UTF8.GetBytes(input);
 
-        // Start with a non-zero seed
-        uint hash = 0x811C9DC5; // FNV offset basis (just a good seed)
-        const uint prime = 16777619;
+        // We'll generate 4 different 64-bit segments and combine them into a 256-bit hash (64 hex chars)
+        ulong[] parts = new ulong[4];
+        ulong seed = 0xCBF29CE484222325; // 64-bit FNV offset basis
 
-        foreach (byte b in bytes)
+        for (int round = 0; round < parts.Length; round++)
         {
-            // Mix bits: XOR, multiply by prime, and rotate bits
-            hash ^= b;
-            hash *= prime;
-            hash = (hash << 5) | (hash >> 27); // rotate left 5 bits
+            ulong hash = seed ^ (ulong)round * 0x9E3779B97F4A7C15UL; // change seed per round
+
+            foreach (byte b in bytes)
+            {
+                // XOR, multiply, rotate, and mix bits
+                hash ^= b;
+                hash *= 0x100000001B3;
+                hash = (hash << 13) | (hash >> 51); // rotate left 13 bits
+            }
+
+            // Final avalanche for extra diffusion
+            hash ^= (hash >> 33);
+            hash *= 0xff51afd7ed558ccdUL;
+            hash ^= (hash >> 33);
+            hash *= 0xc4ceb9fe1a85ec53UL;
+            hash ^= (hash >> 33);
+
+            parts[round] = hash;
         }
 
-        // Final avalanche (extra mixing)
-        hash ^= (hash >> 16);
-        hash *= 0x85EBCA6B;
-        hash ^= (hash >> 13);
-        hash *= 0xC2B2AE35;
-        hash ^= (hash >> 16);
+        // Combine all parts into one 64-char hex string (16 hex chars per part × 4 parts = 64)
+        var sb = new StringBuilder(64);
+        foreach (ulong p in parts)
+        {
+            sb.Append(p.ToString("X16")); // 16 hex chars per 64-bit block
+        }
 
-        // Convert to hex string
-        return hash.ToString("X8");
+        return sb.ToString();
     }
 }
