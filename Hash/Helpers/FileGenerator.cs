@@ -46,6 +46,20 @@
             }
         }
 
+        public static void GenerateFileWithStringPairs(string filePath, int stringLength, int pairCount)
+        {
+            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            using var writer = new StreamWriter(stream);
+
+            for (int i = 0; i < pairCount; i++)
+            {
+                string firstPart = TextGenerator.GenerateRandomAsciiLetters(stringLength);
+                string secondPart = TextGenerator.GenerateRandomAsciiLetters(stringLength);
+
+                writer.WriteLine($"{firstPart} {secondPart}");
+            }
+        }
+
         public static void GenerateEmptyFile(string filePath)
             => GenerateFile(filePath, string.Empty);
 
