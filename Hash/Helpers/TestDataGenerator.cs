@@ -9,6 +9,7 @@ namespace Hash.Helpers
             GenerateFilesWithOneChar(folderPath);
             GenerateFilesWithRandomChars(folderPath, length: 2000);
             GenerateFilesWithOneDifferentChar(folderPath, numberOfFiles: 5, length: 2000);
+            GenerateEmptyFiles(folderPath, numberOfFiles: 5);
 
             Console.WriteLine(string.Format(MessageConstants.TestDataGenerated, folderPath));
         }
@@ -41,6 +42,17 @@ namespace Hash.Helpers
             Directory.CreateDirectory(newFolderPath);
 
             FileGenerator.GenerateFilesWithOneDifferentCharacter(newFolderPath, numberOfFiles, length);
+        }
+
+        private static void GenerateEmptyFiles(string folderPath, int numberOfFiles)
+        {
+            string newFolderPath = Path.Combine(folderPath, $"empty-files");
+            Directory.CreateDirectory(newFolderPath);
+
+            for (int i = 0; i < numberOfFiles; i++)
+            {
+                FileGenerator.GenerateEmptyFile(GenerateNewFilePath(folderPath));
+            }
         }
 
         private static string GenerateNewFilePath(string folderPath)
