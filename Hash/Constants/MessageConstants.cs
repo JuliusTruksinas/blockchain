@@ -2,6 +2,8 @@
 {
     public static class MessageConstants
     {
+        public const string TestDataGenerated = "successfully generated the test data in folder: {0}";
+
         public static class Prompts
         {
             public const string Algorithm = "Enter the algorithm you would like to use (possible options - {0}):";

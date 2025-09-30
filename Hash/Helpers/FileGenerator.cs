@@ -23,8 +23,8 @@
 
         public static void GenerateFilesWithOneDifferentCharacter(string folderPath, int numberOfFiles, int length)
         {
-            if (length > TextGenerator.AsciiLetters.Length)
-                throw new ArgumentException($"Max {nameof(length)} is {TextGenerator.AsciiLetters.Length}.");
+            if (numberOfFiles > TextGenerator.AsciiLetters.Length)
+                throw new ArgumentException($"Max {nameof(numberOfFiles)} is {TextGenerator.AsciiLetters.Length}.");
 
             List<char> unusedChars = [.. TextGenerator.AsciiLetters];
 
@@ -34,7 +34,7 @@
             string firstPart = TextGenerator.GenerateRandomAsciiLetters(firstPartLength);
             string secondPart = TextGenerator.GenerateRandomAsciiLetters(secondPartLength);
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < numberOfFiles; i++)
             {
                 int last = unusedChars.Count - 1;
                 char c = unusedChars[last];

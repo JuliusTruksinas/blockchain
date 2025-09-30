@@ -1,5 +1,7 @@
-﻿using Hash.Enums;
+﻿using Hash.Constants;
+using Hash.Enums;
 using Hash.Hashers;
+using Hash.Helpers;
 using Hash.InputProviders;
 using Hash.Interfaces;
 using Hash.Models;
@@ -10,6 +12,12 @@ public class Program
 {
     static int Main(string[] args)
     {
+        if(args.Length == 2 && args[0] == "testData" && Directory.Exists(args[1]))
+        {
+            TestDataGenerator.GenerateTestData(args[1]);
+            return 0;
+        }
+
         IHashInputProvider inputProvider = GetInputProvider(args);
         if (!inputProvider.TryGetInput(out HashInput? input, out string? errorMessage))
         {
