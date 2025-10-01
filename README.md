@@ -279,3 +279,12 @@ Looking at avalanche effect, our custom hash achieved a **hex difference averagi
 Performance-wise, our custom implementation completed comparable tests in **0–1 ms** regardless of input size, while `hash_be_ai` scaled linearly from **~0.00027 s for 8 lines** up to **~0.0387 s for 512 lines**. Gustavo earlier version (v0.1x) was relatively slower, but the improved v0.2x version significantly optimized speed for larger inputs while retaining collision resistance and determinism.
 
 In summary, all three custom hashes satisfy the core requirements of a hash function: fixed output size, determinism, collision resistance, and a strong avalanche effect. Our custom hash demonstrates avalanche properties closest to SHA-256, Gustavo version shows strong binary diffusion, and `hash_be_ai` provides efficient scaling performance for larger files.
+
+# Conclusion
+
+Our custom hash function successfully meets the core requirements of hashing: fixed 256-bit output, determinism, collision resistance, and strong avalanche effect.  
+Compared with the AI hash and SHA-256, it shows performance close to SHA-256 while remaining lightweight and simple in design.  
+No collisions were detected in extensive tests, and the avalanche effect averaged ~93.7% at the hex level and ~19.4% at the bit level, nearly identical to SHA-256.  
+Compared with other custom implementations (`hash_be_ai` and Gustavo’s hash), our version demonstrates balanced performance, reliable diffusion, and stable execution times of ~0–1 ms.  
+While not cryptographically proven like SHA-256, it is well-suited for experimentation, educational purposes, and lightweight applications.  
+For security-critical use cases, however, SHA-256 remains the most reliable choice due to its proven cryptographic strength.
