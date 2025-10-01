@@ -4,6 +4,16 @@
 2. we take the input text and for each input byte, we perform add/xor/rotate operations, and cross-mix with the other seed numbers.
 3. at the end when the original 4 seed number are all mixed with the input bytes we format each 64-bit seed number as 16 hex chars and concatenate to 64-char uppercase hex string.
 
+# Instructions to run the application
+
+## Using CLI
+1. make sure you are in the Hash project folder.
+2. use the following command `dotnet run <algorithm> <file_path>`
+
+## Using console
+1. make sure you are in the Hash project folder.
+2. use the following command `dotnet run`
+
 # Instructions to generate test data
 
 You can generate test data using the CLI arguments:
@@ -244,3 +254,28 @@ You can generate test data using the CLI arguments:
 | --- | --- | --- | --- |
 | Hex | 76.56 | 100.00 | 93.74 |
 | Bits | 13.38 | 24.90 | 19.44 |
+
+# Hash Function Comparison Table
+
+| Aspect                | Custom Hash                                   | AI Hash                                      | SHA-256                                      |
+|-----------------------|-----------------------------------------------|----------------------------------------------|----------------------------------------------|
+| **Output size**       | 256-bit (64 hex chars)                        | 256-bit (64 hex chars)                       | 256-bit (64 hex chars)                       |
+| **Speed**             | 0–1 ms (fast)                                | 0–1 ms (fast)                                | 0 ms (fast)                                  |
+| **Determinism**       | Deterministic                                | Deterministic                                | Deterministic                                |
+| **Collisions**        | None detected in tests                       | None detected in tests                       | None detected in tests                       |
+| **Avalanche (Hex)**   | 78–100% (avg ~93.75%)                        | 78–100% (avg ~93.76%)                        | 76–100% (avg ~93.74%)                        |
+| **Avalanche (Bits)**  | 12.8–25.0% (avg ~19.44%)                     | 13.4–25.5% (avg ~19.43%)                     | 13.4–24.9% (avg ~19.44%)                     |
+| **Strengths**         | Simple design, good performance              | Similar to Custom Hash, slightly better bit spread | Industry standard, cryptographically proven |
+| **Weaknesses**        | Not cryptographically proven                 | Not standardized or peer-reviewed            | None in tested categories                    |
+| **Best for**          | Experimentation, lightweight hashing         | Experimentation, alternative hashing methods | Security, trusted cryptographic applications |
+
+
+# Comparing with other people's hash functions
+
+In addition to testing our own custom hash function, we compared it with the `hash_be_ai` version created by Ignas and Justas ([Andrujus/Blockchain](https://github.com/Andrujus/Blockchain/tree/v0.1)) and Gustavo hash implementation ([GustavasMarcinkevicius/Blockchain](https://github.com/GustavasMarcinkevicius/Blockchain/tree/v0.2)). All three algorithms consistently produced 256-bit (64-character) outputs and showed no collisions even after testing **400,000 random string pairs**.
+
+Looking at avalanche effect, our custom hash achieved a **hex difference averaging ~93.7%** and **bit difference averaging ~19.4%**, which is very close to SHA-256 levels. `hash_be_ai` showed a **bit difference of ~121 out of 256 (~47%)** and a **hex difference averaging ~57 out of 64 (~89%)**, meaning it flipped about half the bits on average when a single input character was changed. Gustavo hash, in turn, produced a **hex difference average of ~89%** but a much stronger **binary-level avalanche of ~45%**, which indicates its internal bit-swapping design spreads changes widely at the bit level, though less so in the hex representation.
+
+Performance-wise, our custom implementation completed comparable tests in **0–1 ms** regardless of input size, while `hash_be_ai` scaled linearly from **~0.00027 s for 8 lines** up to **~0.0387 s for 512 lines**. Gustavo earlier version (v0.1x) was relatively slower, but the improved v0.2x version significantly optimized speed for larger inputs while retaining collision resistance and determinism.
+
+In summary, all three custom hashes satisfy the core requirements of a hash function: fixed output size, determinism, collision resistance, and a strong avalanche effect. Our custom hash demonstrates avalanche properties closest to SHA-256, Gustavo version shows strong binary diffusion, and `hash_be_ai` provides efficient scaling performance for larger files.
