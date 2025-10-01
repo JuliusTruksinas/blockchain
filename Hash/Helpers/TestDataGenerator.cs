@@ -45,12 +45,25 @@ namespace Hash.Helpers
         
         private static void GenerateAvalanceEffectTestData(string folderPath)
         {
-            string avalancheEffectTestDatafilePath = Path.Combine(folderPath, FileConstants.AvalancheEffectTestData);
+            string avalancheEffectTestDatafilePath = Path.Combine(folderPath, FileConstants.Input.AvalancheEffectTestData);
             GenerateFileWithStringPairsOneDifferentChar(avalancheEffectTestDatafilePath, 500, 100_000);
         }
 
-        // TODO: copy the konstitucija.txt
-        private static void GenerateEffectivenessTestData(string folderPath) { }
+        private static void GenerateEffectivenessTestData(string folderPath)
+        {
+            string filePath = Path.Join(folderPath, FileConstants.Input.EffectivenessTestData);
+
+            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            using var writer = new StreamWriter(stream);
+
+            for (int i = 0; i < 10_0000; i++)
+            {
+                string line = TextGenerator.GenerateRandomAsciiLetters(50);
+
+                writer.WriteLine(line);
+            }
+
+        }
 
         private static void GenerateFilesWithOneChar(string folderPath, char[] chars)
         {

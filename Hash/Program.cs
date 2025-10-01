@@ -18,6 +18,12 @@ public class Program
             return 0;
         }
 
+        if(args.Length == 4 && args[0] == "generateTestsResults")
+        {
+            HasherTestResultsGenerator.GenerateTestResults(new CustomHasher(), args[2], args[3]);
+            return 0;
+        }
+
         IHashInputProvider inputProvider = GetInputProvider(args);
         if (!inputProvider.TryGetInput(out HashInput? input, out string? errorMessage))
         {

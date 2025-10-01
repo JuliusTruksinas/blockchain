@@ -4,14 +4,16 @@ namespace Hash.Helpers
 {
     public static class HasherTestsResultsFormatter
     {
-        public static string FormatEffectivenessResults(Dictionary<int, long> results)
+        public static string FormatEffectivenessResults(List<(int linesCount, string hash, long timeInMs)> results)
         {
             var sb = new StringBuilder();
 
-            AddTableHeading(sb, "Line count", "Time (ms)");
+            AddTableHeading(sb, "Line count", "Hash", "Time (ms)");
 
-            foreach (var kvp in results)
-                AddDataRow(sb, kvp.Key.ToString(), kvp.Value.ToString());
+            foreach (var resultRow in results)
+            {
+                AddDataRow(sb, resultRow.linesCount.ToString(), resultRow.hash, resultRow.timeInMs.ToString());
+            }
 
             return sb.ToString();
         }
@@ -54,6 +56,27 @@ namespace Hash.Helpers
 
             return sb.ToString();
         }
+
+        public static string FormatAvalancheEffectTestResults(List<(string level, double minMatch, double maxMatch, double avgMatch)> results)
+        {
+            var sb = new StringBuilder();
+
+            AddTableHeading(sb, "Level", "Min %", "Max %", "Avg %");
+
+            foreach (var resultRow in results)
+            {
+                AddDataRow(
+                    sb,
+                    resultRow.level,
+                    resultRow.minMatch.ToString("F2"),
+                    resultRow.maxMatch.ToString("F2"),
+                    resultRow.avgMatch.ToString("F2")
+                );
+            }
+
+            return sb.ToString();
+        }
+
 
         private static void AddTableHeading(StringBuilder sb, params string[] columns)
         {

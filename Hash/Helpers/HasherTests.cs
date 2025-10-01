@@ -12,33 +12,27 @@ public class HasherTests
         _hasher = hasher;
     }
 
-    /// <summary>
-    /// Measures how much time does it take to hash 1,2,4,8..., n lines of a txt file
-    /// </summary>
-    /// <param name="filePath"></param>
-    /// <returns>A dicrionary where the keys are the number of lines that were hashed and the values the time it took in ms.</returns>
-    public Dictionary<int, long> EffectivenessTest(string filePath)
+    public List<(int linesCount, string hash, long timeInMs)> EffectivenessTest(string filePath)
     {
-        Dictionary<int, long> linesHashTimeInMsMapping = [];
+        List<(int, string, long)> results = [];
 
         int lineCount = CountLines(filePath);
-        double timesToReadFile = Math.Floor(Math.Log2(lineCount));
         int linesToRead = 1;
 
-        for(int i = 0; i < timesToReadFile; i++)
+        while (linesToRead <= lineCount)
         {
-            long timeInMs = MeasureLinesHashTime(filePath, linesToRead);
-            linesHashTimeInMsMapping.Add(linesToRead, timeInMs);
+            (string hash, long timeInMs) = MeasureLinesHashTime(filePath, linesToRead);
+            results.Add((linesToRead, hash, timeInMs));
             linesToRead *= 2;
         }
 
-        if(linesToRead != lineCount)
+        if (lineCount != linesToRead)
         {
-            long timeInMs = MeasureLinesHashTime(filePath, lineCount);
-            linesHashTimeInMsMapping.Add(lineCount, timeInMs);
+            (string hash, long timeInMs) = MeasureLinesHashTime(filePath, linesToRead);
+            results.Add((lineCount, hash, timeInMs));
         }
 
-        return linesHashTimeInMsMapping;
+        return results;
     }
     
     public List<(string fileName, string hash, int hashLength)> OutputSizeTest(string folderPath)
@@ -115,7 +109,44 @@ public class HasherTests
         return results;
     }
 
-    private long MeasureLinesHashTime(string filePath, int lineCount)
+    public List<(string level, double minMatch, double maxMatch, double avgMatch)> AvalancheEffectTest(string filePath)
+    {
+        double minHex = 100, maxHex = 0, sumHex = 0;
+        int hexCount = 0;
+
+        double minBits = 100, maxBits = 0, sumBits = 0;
+        int bitCount = 0;
+
+        foreach (var line in File.ReadLines(filePath))
+        {
+            string[] parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length != 2)
+                continue;
+
+            string first = parts[0];
+            string second = parts[1];
+
+            double hexMatch = CompareByCharacters(first, second);
+            sumHex += hexMatch;
+            if (hexMatch < minHex) minHex = hexMatch;
+            if (hexMatch > maxHex) maxHex = hexMatch;
+            hexCount++;
+
+            double bitMatch = CompareByBits(first, second);
+            sumBits += bitMatch;
+            if (bitMatch < minBits) minBits = bitMatch;
+            if (bitMatch > maxBits) maxBits = bitMatch;
+            bitCount++;
+        }
+
+        double avgHex = hexCount > 0 ? sumHex / hexCount : 0;
+        double avgBits = bitCount > 0 ? sumBits / bitCount : 0;
+
+        return [ ("Hex", minHex, maxHex, avgHex), ("Bits", minBits, maxBits, avgBits) ];
+    }
+
+
+    private (string hash, long timeInMs) MeasureLinesHashTime(string filePath, int lineCount)
     {
         using var reader = new StreamReader(filePath);
 
@@ -130,11 +161,11 @@ public class HasherTests
 
         var stopwatch = Stopwatch.StartNew();
 
-        _hasher.Hash(linesContent);
+        string hash = _hasher.Hash(linesContent);
         
         stopwatch.Stop();
 
-        return stopwatch.ElapsedMilliseconds;
+        return (hash, stopwatch.ElapsedMilliseconds);
     }
 
     private static int CountLines(string filePath)
@@ -148,4 +179,42 @@ public class HasherTests
         return lineCount;
     }
 
+    public static double CompareByCharacters(string s1, string s2)
+    {
+        int matches = 0;
+
+        for (int i = 0; i < s1.Length; i++)
+        {
+            if (s1[i] == s2[i])
+                matches++;
+        }
+
+        return (double)matches / s1.Length * 100.0;
+    }
+
+    public static double CompareByBits(string s1, string s2)
+    {
+        byte[] b1 = Encoding.Unicode.GetBytes(s1);
+        byte[] b2 = Encoding.Unicode.GetBytes(s2);
+
+        int matches = 0;
+        int totalBits = b1.Length * 8;
+
+        for (int i = 0; i < b1.Length; i++)
+        {
+            byte byte1 = b1[i];
+            byte byte2 = b2[i];
+
+            for (int bit = 0; bit < 8; bit++)
+            {
+                bool bit1 = (byte1 & (1 << bit)) != 0;
+                bool bit2 = (byte2 & (1 << bit)) != 0;
+
+                if (bit1 == bit2)
+                    matches++;
+            }
+        }
+
+        return (double)matches / totalBits * 100.0;
+    }
 }
