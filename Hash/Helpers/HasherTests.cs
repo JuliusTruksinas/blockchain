@@ -16,7 +16,7 @@ public class HasherTests
     /// Measures how much time does it take to hash 1,2,4,8..., n lines of a txt file
     /// </summary>
     /// <param name="filePath"></param>
-    /// <returns></returns>
+    /// <returns>A dicrionary where the keys are the number of lines that were hashed and the values the time it took in ms.</returns>
     public Dictionary<int, long> EffectivenessTest(string filePath)
     {
         Dictionary<int, long> linesHashTimeInMsMapping = [];
