@@ -103,7 +103,6 @@ You can generate test data using the CLI arguments:
 | Hex | 78.12 | 100.00 | 93.75 |
 | Bits | 12.79 | 25.00 | 19.44 |
 
-
 ## AI hash function
 
 ### Output size test results
@@ -258,6 +257,17 @@ You can generate test data using the CLI arguments:
 | --- | --- | --- | --- |
 | Hex | 76.56 | 100.00 | 93.74 |
 | Bits | 13.38 | 24.90 | 19.44 |
+
+# hiding, puzzle-friendliness
+
+original text: `Lietuva`
+salt: `$988e213`
+custom without salt: `FD52E290ED45D6CC9C2D3430778D9FC7036827BF4F6F8E74D00C7B8C314A2C9C`
+custom with salt: `43DB63D8EDC73370E2232BE9D5E2235173302C57B99D4256DB64C7E4CAF8D2DA`
+ai without salt: `8C3EB676AD4B068E9AA13E79CB306599062BD3E5A7914EE487F578C7193CFA19`
+ai with salt: `9DD49714AB4785F12833DF1F52C60F269A7C3401C8426F31D707E5E6E6E6388F`
+sha256 without salt: `5109820F748796128B8BAFD3806D05511BC89AD77FC3CDA960FACF37A639BC7F`
+sha256 with salt: `3AA3A41BFF20CCC1473453E31B9BBBA714BC0F66E771AF5D9E8827BBF70DC08F`
 
 # Hash Function Comparison Table
 
