@@ -29,6 +29,19 @@ namespace Hash.Helpers
             return sb.ToString();
         }
 
+        public static string FormatDeterminismTestRetults(List<(string fileName, string hash, int timesRan, bool isDeterministic)> results)
+        {
+            var sb = new StringBuilder();
+            AddTableHeading(sb, "File name", "Hash", "Times ran", "Is deterministic?");
+
+            foreach (var resultRow in results)
+            {
+                AddDataRow(sb, resultRow.fileName, resultRow.hash, resultRow.timesRan.ToString(), resultRow.isDeterministic.ToString());
+            }
+
+            return sb.ToString();
+        }
+
         private static void AddTableHeading(StringBuilder sb, params string[] columns)
         {
             sb.AppendLine("| " + string.Join(" | ", columns) + " |");

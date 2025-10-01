@@ -1,4 +1,5 @@
-﻿using Hash.Interfaces;
+﻿using Hash.Constants;
+using Hash.Interfaces;
 
 namespace Hash.Helpers
 {
@@ -6,20 +7,33 @@ namespace Hash.Helpers
     {
         public static void GenerateEffectivenessResults(IHasher hasher, string inputFolderPath, string outputFolderPath)
         {
-            var tester = new HasherTests(hasher);
-            var results = tester.EffectivenessTest(Path.Join(inputFolderPath, "konstitucija.txt"));
+            var testRunner = new HasherTests(hasher);
+            var results = testRunner.EffectivenessTest(Path.Join(inputFolderPath, "konstitucija.txt"));
 
-            string resultsFilePath = Path.Join(outputFolderPath, "effectivenessResult.md");
+            string resultsFilePath = Path.Join(outputFolderPath, "effectivenessResults.md");
             File.WriteAllText(resultsFilePath, HasherTestsResultsFormatter.FormatEffectivenessResults(results));
         }
 
         public static void GenerateOutputSizeResults(IHasher hasher, string inputFolderPath, string outputFolderPath)
         {
-            var tester = new HasherTests(hasher);
-            var results = tester.OutputSizeTest(inputFolderPath);
+            var testRunner = new HasherTests(hasher);
+            var outputSizeTestDataFolderPath = Path.Join(inputFolderPath, DirectoryConstants.OutputSizeTestData);
 
-            string filePath = Path.Join(outputFolderPath, "outputSizeResult.md");
+            var results = testRunner.OutputSizeTest(outputSizeTestDataFolderPath);
+
+            string filePath = Path.Join(outputFolderPath, "outputSizeResults.md");
             File.WriteAllText(filePath, HasherTestsResultsFormatter.FormatOutputSizeResults(results));
+        }
+
+        public static void GenerateDeterminismResults(IHasher hasher, string inputFolderPath, string outputFolderPath)
+        {
+            var testRunner = new HasherTests(hasher);
+            var determinismTestDataFolderPath = Path.Join(inputFolderPath, DirectoryConstants.DeterminismTestData);
+
+            var results = testRunner.DeterminismTest(determinismTestDataFolderPath, timesToRun: 5);
+
+            string filePath = Path.Join(outputFolderPath, "determinismResults.md");
+            File.WriteAllText(filePath, HasherTestsResultsFormatter.FormatDeterminismTestRetults(results));
         }
     }
 }

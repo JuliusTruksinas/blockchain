@@ -58,6 +58,36 @@ public class HasherTests
         return results;
     }
 
+    public List<(string fileName, string hash, int timesRan, bool isDeterministic)> DeterminismTest(string folderPath, int timesToRun)
+    {
+        List<(string, string, int, bool)> results = [];
+        string[] filePaths = Directory.GetFiles(folderPath);
+
+        foreach (string filePath in filePaths)
+        {
+            string fileName = Path.GetFileName(filePath);
+            string content = File.ReadAllText(filePath);
+            string firstHash = _hasher.Hash(content);
+            
+            bool isDeterministic = true;
+
+            for(int i = 0; i < timesToRun-1; i++)
+            {
+                string hash = _hasher.Hash(content);
+
+                if(hash != firstHash)
+                {
+                    isDeterministic = false;
+                    break;
+                }
+            }
+
+            results.Add((fileName, firstHash, timesToRun, isDeterministic));
+        }
+
+        return results;
+    }
+
     private long MeasureLinesHashTime(string filePath, int lineCount)
     {
         using var reader = new StreamReader(filePath);
