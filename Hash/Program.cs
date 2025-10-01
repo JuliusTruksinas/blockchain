@@ -12,7 +12,7 @@ public class Program
 {
     static int Main(string[] args)
     {
-        if(args.Length == 2 && args[0] == "testData" && Directory.Exists(args[1]))
+        if(args.Length == 2 && args[0] == "generateTestData" && Directory.Exists(args[1]))
         {
             TestDataGenerator.GenerateTestData(args[1]);
             return 0;

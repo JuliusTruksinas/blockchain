@@ -9,7 +9,7 @@
 You can generate test data using the CLI arguments:
 
 1. make sure you are in the Hash project folder.
-2. use the following command `dotnet run testData <folder_path>`, here `<folder_path>` is the folder path where the test data will be created.
+2. use the following command `dotnet run generateTestData <folder_path>`, here `<folder_path>` is the folder path where the test data will be created.
 
 # Tests
 
@@ -46,3 +46,4 @@ file with 100,000 pairs of strings with length 10 -> `25CD3FA7AD1EEF3421EA4D3D18
 
 ![alt text](image-3.png)
 **Conclusion:** as you can see from the image provided above, if you run the program with the same input data you always get the same output.
+

@@ -2,17 +2,6 @@
 {
     public static class FileGenerator
     {
-        public static void GenerateFileWithOneCharacter(string filePath, string character)
-        {
-            if (string.IsNullOrEmpty(character))
-                throw new ArgumentNullException($"{nameof(character)} must be provided.");
-
-            if (character.Length != 1)
-                throw new ArgumentException($"{nameof(character)} must be a single character.");
-
-            GenerateFile(filePath, character);
-        }
-
         public static void GenerateFileWithRandomAsciiCharacters(string filePath, int length)
         {
             if (length < 1)
@@ -60,8 +49,13 @@
             }
         }
 
+        public static void GenerateFileWithOneCharacter(string filePath, char character)
+            => GenerateFile(filePath, character);
+
         public static void GenerateEmptyFile(string filePath)
             => GenerateFile(filePath, string.Empty);
+        private static void GenerateFile(string filePath, char content)
+            => GenerateFile(filePath, content.ToString());
 
         private static void GenerateFile(string filePath, string content)
             => File.WriteAllText(filePath, content);
