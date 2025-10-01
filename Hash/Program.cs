@@ -20,7 +20,25 @@ public class Program
 
         if(args.Length == 4 && args[0] == "generateTestsResults")
         {
-            HasherTestResultsGenerator.GenerateTestResults(new CustomHasher(), args[2], args[3]);
+            if(!Enum.TryParse(args[1], ignoreCase: true, out HashAlgorithm hashAlgorithm))
+            {
+                Console.WriteLine(string.Format(MessageConstants.Errors.UnsupportedAlgorithm, string.Join(", ", Enum.GetNames<HashAlgorithm>())));
+                return 1;
+            }
+
+            if(!Directory.Exists(args[2]))
+            {
+                Console.WriteLine(string.Format(MessageConstants.Errors.FolderDoesNotExist, args[2]));
+                return 1;
+            }
+
+            if (!Directory.Exists(args[3]))
+            {
+                Console.WriteLine(string.Format(MessageConstants.Errors.FolderDoesNotExist, args[3]));
+                return 1;
+            }
+
+            HasherTestResultsGenerator.GenerateTestResults(GetHasher(hashAlgorithm), args[2], args[3]);
             return 0;
         }
 
@@ -52,6 +70,9 @@ public class Program
         if (hashAlgorithm == HashAlgorithm.Custom)
             return new CustomHasher();
 
-        return new AIHasher();
+        if(hashAlgorithm == HashAlgorithm.AI)
+            return new AIHasher();
+
+        return new Sha256Hasher();
     }
 }

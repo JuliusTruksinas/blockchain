@@ -51,15 +51,34 @@
 
         public static void GenerateFileWithStringPairsOneDifferentChar(string filePath, int stringLength, int pairCount)
         {
-            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-            using var writer = new StreamWriter(stream);
+            const string alphabet = TextGenerator.AsciiLetters;
+            var rng = new Random();
+
+            using var writer = new StreamWriter(filePath, false);
 
             for (int i = 0; i < pairCount; i++)
             {
-                string randomString = TextGenerator.GenerateRandomAsciiLetters(stringLength - 1);
-                string firstPart =  randomString + "a";
-                string secondPart = randomString + "b";
+                // create a random base string
+                var chars = new char[stringLength];
+                for (int j = 0; j < stringLength; j++)
+                {
+                    chars[j] = alphabet[rng.Next(alphabet.Length)];
+                }
+                string firstPart = new string(chars);
 
+                // mutate one char at a random position
+                int pos = rng.Next(stringLength);
+                char original = chars[pos];
+                char newChar;
+                do
+                {
+                    newChar = alphabet[rng.Next(alphabet.Length)];
+                } while (newChar == original);
+
+                chars[pos] = newChar;
+                string secondPart = new string(chars);
+
+                // write pair to file
                 writer.WriteLine($"{firstPart} {secondPart}");
             }
         }

@@ -61,7 +61,7 @@ namespace Hash.Helpers
         {
             var sb = new StringBuilder();
 
-            AddTableHeading(sb, "Level", "Min %", "Max %", "Avg %");
+            AddTableHeading(sb, "Level", "Minimum difference%", "Maximum difference%", "Average difference%");
 
             foreach (var resultRow in results)
             {

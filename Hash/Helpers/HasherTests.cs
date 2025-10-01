@@ -109,7 +109,7 @@ public class HasherTests
         return results;
     }
 
-    public List<(string level, double minMatch, double maxMatch, double avgMatch)> AvalancheEffectTest(string filePath)
+    public List<(string level, double minDiff, double maxDiff, double avgDiff)> AvalancheEffectTest(string filePath)
     {
         double minHex = 100, maxHex = 0, sumHex = 0;
         int hexCount = 0;
@@ -123,19 +123,19 @@ public class HasherTests
             if (parts.Length != 2)
                 continue;
 
-            string first = parts[0];
-            string second = parts[1];
+            string first = _hasher.Hash(parts[0]);
+            string second = _hasher.Hash(parts[1]);
 
-            double hexMatch = CompareByCharacters(first, second);
-            sumHex += hexMatch;
-            if (hexMatch < minHex) minHex = hexMatch;
-            if (hexMatch > maxHex) maxHex = hexMatch;
+            double hexDiff = 100 - CompareByCharacters(first, second);
+            sumHex += hexDiff;
+            if (hexDiff < minHex) minHex = hexDiff;
+            if (hexDiff > maxHex) maxHex = hexDiff;
             hexCount++;
 
-            double bitMatch = CompareByBits(first, second);
-            sumBits += bitMatch;
-            if (bitMatch < minBits) minBits = bitMatch;
-            if (bitMatch > maxBits) maxBits = bitMatch;
+            double bitDiff = 100 - CompareByBits(first, second);
+            sumBits += bitDiff;
+            if (bitDiff < minBits) minBits = bitDiff;
+            if (bitDiff > maxBits) maxBits = bitDiff;
             bitCount++;
         }
 
@@ -145,7 +145,7 @@ public class HasherTests
         return [ ("Hex", minHex, maxHex, avgHex), ("Bits", minBits, maxBits, avgBits) ];
     }
 
-
+    
     private (string hash, long timeInMs) MeasureLinesHashTime(string filePath, int lineCount)
     {
         using var reader = new StreamReader(filePath);

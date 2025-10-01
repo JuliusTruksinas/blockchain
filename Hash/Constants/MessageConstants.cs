@@ -16,11 +16,13 @@
                     Error: missing or invalid arguments.
 
                     The CLI arguments that must be specified: <hash> <file_path>.
-                    <hash> - "Custom" or "AI".
+                    <hash> - "Custom", "AI", "sha256".
                     <file_path> - the path to a .txt file
                     """;
 
             public const string FileDoesNotExist = "File does not exist in the specified path: \"{0}\".";
+
+            public const string FolderDoesNotExist = "Folder does not exist in the specified path: \"{0}\".";
 
             public const string UnsupportedAlgorithm = "Unsupported algorithm! Supported algorithms: {0}.";
 
