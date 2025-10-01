@@ -65,6 +65,8 @@ You can generate test data using the CLI arguments:
 | 512 | 2D906BC105893817648D92F42148C64B9E7EBC82249927287BDF414413761F42 | 0 |
 | 789 | B7CECD44ACE77FF91E38CB7E0B83B99BAC3CC90FBE2C11C69E3F523B4C762FCD | 1 |
 
+![alt text](image.png)
+
 ### Determinism test results
 
 | File name | Hash | Times ran | Is deterministic? |
@@ -140,6 +142,7 @@ You can generate test data using the CLI arguments:
 | 512 | C54090836063E0C576916F23E772FA29E77E3EB8987184A5B37D80F67BC9D65C | 1 |
 | 789 | D15ECF243778FD70FB65B449F093E194BA8C3426F7F32FF2657F27BA08909656 | 1 |
 
+![alt text](image-1.png)
 
 ### Determinism test results
 
@@ -217,6 +220,7 @@ You can generate test data using the CLI arguments:
 | 512 | D8265A0A8E249A16C8541FBAC0C8392D28B20CC9098DE6F4F1D7C008FD9287A4 | 0 |
 | 789 | BCFADD42E937DBD305D25AFE79AF9F846BC73999F7CEBC901AB57315FBDB974E | 0 |
 
+![alt text](image-2.png)
 
 ### Determinism test results
 
