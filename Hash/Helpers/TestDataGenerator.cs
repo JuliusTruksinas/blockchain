@@ -11,6 +11,7 @@ namespace Hash.Helpers
             GenerateFilesWithOneDifferentChar(folderPath, numberOfFiles: 5, length: 2000);
             GenerateEmptyFiles(folderPath, numberOfFiles: 5);
             GenerateFilesWithStringPairs(folderPath, stringLengths: [ 10, 100, 500, 1_000 ], 100_000);
+            GenerateFileWithStringPairsOneDifferentChar(folderPath, 500, 100_000);
 
             Console.WriteLine(string.Format(MessageConstants.TestDataGenerated, folderPath));
         }
@@ -57,6 +58,12 @@ namespace Hash.Helpers
 
             for (int i = 0; i < stringLengths.Length; i++)
                 FileGenerator.GenerateFileWithStringPairs(GenerateNewFilePath(newFolderPath, i+1), stringLengths[i], pairCount);
+        }
+
+        private static void GenerateFileWithStringPairsOneDifferentChar(string folderPath, int stringLength, int pairCount)
+        {
+            string filePath = Path.Combine(folderPath, "stringPairs1DifferentChar.txt");
+            FileGenerator.GenerateFileWithStringPairsOneDifferentChar(filePath, stringLength, pairCount);
         }
 
         private static string GenerateNewFilePath(string folderPath, int fileCounter)

@@ -49,6 +49,21 @@
             }
         }
 
+        public static void GenerateFileWithStringPairsOneDifferentChar(string filePath, int stringLength, int pairCount)
+        {
+            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            using var writer = new StreamWriter(stream);
+
+            for (int i = 0; i < pairCount; i++)
+            {
+                string randomString = TextGenerator.GenerateRandomAsciiLetters(stringLength - 1);
+                string firstPart =  randomString + "a";
+                string secondPart = randomString + "b";
+
+                writer.WriteLine($"{firstPart} {secondPart}");
+            }
+        }
+
         public static void GenerateFileWithOneCharacter(string filePath, char character)
             => GenerateFile(filePath, character);
 
