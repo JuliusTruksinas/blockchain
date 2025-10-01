@@ -4,7 +4,7 @@ namespace Hash.Helpers
 {
     public static class HasherTestsResultsFormatter
     {
-        public static string FormatEffectivenessResults(Dictionary<int, double> results)
+        public static string FormatEffectivenessResults(Dictionary<int, long> results)
         {
             var sb = new StringBuilder();
 
@@ -12,6 +12,19 @@ namespace Hash.Helpers
 
             foreach (var kvp in results)
                 AddDataRow(sb, kvp.Key.ToString(), kvp.Value.ToString());
+
+            return sb.ToString();
+        }
+
+        public static string FormatOutputSizeResults(List<(string fileName, string hash, int hashLength)> results)
+        {
+            var sb = new StringBuilder();
+            AddTableHeading(sb, "File name", "Hash", "Hash length");
+
+            foreach(var resultRow in results)
+            {
+                AddDataRow(sb, resultRow.fileName, resultRow.hash, resultRow.hashLength.ToString());
+            }
 
             return sb.ToString();
         }

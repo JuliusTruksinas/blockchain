@@ -40,6 +40,23 @@ public class HasherTests
 
         return linesHashTimeInMsMapping;
     }
+    
+    public List<(string fileName, string hash, int hashLength)> OutputSizeTest(string folderPath)
+    {
+        List<(string, string, int)> results = [];
+        string[] filePaths = Directory.GetFiles(folderPath);
+
+        foreach (string filePath in filePaths)
+        {
+            string fileName = Path.GetFileName(filePath);
+            string content = File.ReadAllText(filePath);
+            string hash = _hasher.Hash(content);
+
+            results.Add((fileName, hash, hash.Length));
+        }
+
+        return results;
+    }
 
     private long MeasureLinesHashTime(string filePath, int lineCount)
     {
