@@ -42,6 +42,19 @@ namespace Hash.Helpers
             return sb.ToString();
         }
 
+        public static string FormatCollisionSearchTestResults(List<(string fileName, int collisionCount)> results)
+        {
+            var sb = new StringBuilder();
+            AddTableHeading(sb, "File name", "Collision count");
+
+            foreach (var resultRow in results)
+            {
+                AddDataRow(sb, resultRow.fileName, resultRow.collisionCount.ToString());
+            }
+
+            return sb.ToString();
+        }
+
         private static void AddTableHeading(StringBuilder sb, params string[] columns)
         {
             sb.AppendLine("| " + string.Join(" | ", columns) + " |");

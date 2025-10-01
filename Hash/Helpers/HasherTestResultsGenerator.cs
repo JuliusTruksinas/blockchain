@@ -5,6 +5,14 @@ namespace Hash.Helpers
 {
     public static class HasherTestResultsGenerator
     {
+        public static void GenerateTestResults(IHasher hasher, string inputFolderPath, string outputFolderPath)
+        {
+            // GenerateEffectivenessResults(hasher, inputFolderPath, outputFolderPath);
+            GenerateOutputSizeResults(hasher, inputFolderPath, outputFolderPath);
+            GenerateDeterminismResults(hasher, inputFolderPath, outputFolderPath);
+            GenerateCollisionSearchResults(hasher, inputFolderPath, outputFolderPath);
+        }
+
         public static void GenerateEffectivenessResults(IHasher hasher, string inputFolderPath, string outputFolderPath)
         {
             var testRunner = new HasherTests(hasher);
@@ -34,6 +42,17 @@ namespace Hash.Helpers
 
             string filePath = Path.Join(outputFolderPath, "determinismResults.md");
             File.WriteAllText(filePath, HasherTestsResultsFormatter.FormatDeterminismTestRetults(results));
+        }
+
+        public static void GenerateCollisionSearchResults(IHasher hasher, string inputFolderPath, string outputFolderPath)
+        {
+            var testRunner = new HasherTests(hasher);
+            var collisionSearchTestDataFolderPath = Path.Join(inputFolderPath, DirectoryConstants.CollisionSearchTestData);
+
+            var results = testRunner.CollisionSearchTest(collisionSearchTestDataFolderPath);
+
+            string filePath = Path.Join(outputFolderPath, "collisionSearchResults.md");
+            File.WriteAllText(filePath, HasherTestsResultsFormatter.FormatCollisionSearchTestResults(results));
         }
     }
 }

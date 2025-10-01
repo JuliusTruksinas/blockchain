@@ -88,6 +88,33 @@ public class HasherTests
         return results;
     }
 
+    public List<(string fileName, int collisionCount)> CollisionSearchTest(string folderPath)
+    {
+        List<(string, int)> results = [];
+        string[] filePaths = Directory.GetFiles(folderPath);
+
+        foreach (string filePath in filePaths)
+        {
+            string fileName = Path.GetFileName(filePath);
+            int collisionCount = 0;
+
+            foreach (var line in File.ReadLines(filePath))
+            {
+                string[] hashPair = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                string firstHash = _hasher.Hash(hashPair[0]);
+                string secondHash = _hasher.Hash(hashPair[1]);
+
+                if (firstHash == secondHash)
+                    collisionCount++;
+            }
+
+            results.Add((fileName, collisionCount));
+        }
+
+        return results;
+    }
+
     private long MeasureLinesHashTime(string filePath, int lineCount)
     {
         using var reader = new StreamReader(filePath);
